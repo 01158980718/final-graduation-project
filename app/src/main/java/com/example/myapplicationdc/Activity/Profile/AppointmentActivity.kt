@@ -213,6 +213,7 @@ class AppointmentActivity : AppCompatActivity() {
             val editor = sharedPreferences.edit()
             editor.putInt("appointmentId", appointmentId)
             editor.apply()
+            finish()
 
             // TODO: Trigger notification here (use the appointment details if needed)
         }.addOnFailureListener { exception ->

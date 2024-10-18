@@ -88,10 +88,8 @@ class HistoryActivity : AppCompatActivity() {
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         updateStatus(appointment.appointmentDate.toString(), "available", appointment.doctorId!!)
-                                        // Step 2: Remove from the local list in the adapter
-                                        val updatedList = appointmentAdapter.items.toMutableList()
-                                        updatedList.removeAt(position)
-                                        appointmentAdapter.updateData(updatedList)
+                                        // Step 2: Reload the data from Firebase after successful deletion
+                                        viewModel.loadHistory(patientId!!)
 
                                         Toast.makeText(this@HistoryActivity, "Reservation canceled.", Toast.LENGTH_SHORT).show()
 
@@ -113,6 +111,7 @@ class HistoryActivity : AppCompatActivity() {
                 }
             })
     }
+
 
     private fun updateStatus(day: String, new_state: String, doctorId: Int) {
         val databaseReference = FirebaseDatabase.getInstance().getReference("Doctors").child(doctorId.toString())
